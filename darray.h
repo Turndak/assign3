@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "integer.h"
 
 #ifndef __DARRAY_INCLUDED__
 #define __DARRAY_INCLUDED__

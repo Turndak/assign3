@@ -1,5 +1,7 @@
 #include "binomial.h"
-
+#include "integer.h"
+#include "queue.h"
+#include "darray.h"
 
 static void consolidate(Binomial *, BinomialNode *);
 static void merge (Binomial *,DArray *);
@@ -226,7 +228,7 @@ static void findNewExtreme(Binomial *b)
 	for(int i=0; i < sizeDArray(b->rootlist); i++)
 	{
 		n = getSubHeap(b->rootlist, i);
-		if(getSubHeap(b->rootlist, i) != NULL)
+		if(n != NULL)
 		{
 			updateExtreme(b, n);
 		}

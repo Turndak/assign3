@@ -1,7 +1,7 @@
 //mnt/c/Users/Dakota Turner/OneDrive/Documents/Spring2017/CS201/assign3
-Fri Apr  7 08:11:45 DST 2017
-a.out		 comparator.h		  integer.c  real.c	sll.h
-binomial.c	 darray.c		  integer.h  real.h	string.c
-binomial.h	 darray.h		  makefile   scanner.c	string.h
-binomial_test.c  dijkstra.c		  queue.c    scanner.h	WORKING
-comparator.c	 dturner2@crimson.ua.edu  queue.h    sll.c
+Sat Apr  8 08:01:59 DST 2017
+a.out	      darray.c		       integer.h  real.h     string.c
+binomial.c    darray.h		       makefile   scanner.c  string.h
+binomial.h    dijkstra.c	       queue.c	  scanner.h  vertex.c
+comparator.c  dturner2@crimson.ua.edu  queue.h	  sll.c      vertex.h
+comparator.h  integer.c		       real.c	  sll.h      WORKING

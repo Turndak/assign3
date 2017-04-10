@@ -1,4 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "darray.h"
+#include "integer.h"
 
 //private struct members
 struct DArray{
@@ -67,7 +70,7 @@ void setDArray(DArray *a,int index,void *value)
 	{
 		return insertDArray(a, value);
 	}
-	
+
 	a->array[index] = value;
 }
 

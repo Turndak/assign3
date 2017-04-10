@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "queue.h"
-#include "darray.h"
 
 #ifndef __BINHEAP_INCLUDED__
 #define __BINHEAP_INCLUDED__
@@ -25,4 +23,5 @@ extern void deleteBinomial(Binomial *b,BinomialNode *n);
 extern void decreaseKeyBinomial(Binomial *b,BinomialNode *n,void *value);
 extern void *extractBinomial(Binomial *b);
 extern void displayBinomial(FILE *fp,Binomial *b);
+
 #endif
