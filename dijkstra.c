@@ -12,15 +12,17 @@ static void dijkstra(FILE *fp, Binomial *h, DArray *list)
 {
 	Vertex *minVert = startVertex(list);//get the minimum value from the adjacency list
 	
-	//reset some of the Vertex pointers
+	//set prev to the start vertex
 	minVert->prev = minVert;
-	minVert->ID = 0;
+
 	queue *nodesVisited = newQueue(displayVertex);
 
-	//following is straight from David McCoy's pseudoCode from Basic Outline of Dijkstra
+	//following is from David McCoy's pseudoCode from Basic Outline of Dijkstra
 	while(sizeBinomial(h) != 0)
 	{
 		Vertex *u = (Vertex *) extractBinomial(h);//extract from heap vertex u
+		
+		//handle the case when there is only one element in the graph
 		if(u->prev == NULL)
 		{
 			u->ID = 0;
@@ -28,8 +30,10 @@ static void dijkstra(FILE *fp, Binomial *h, DArray *list)
 			//clear visited vertices queue
 			nodesVisited = newQueue(displayVertex);
 		}
+
 		enqueue(nodesVisited, u);//add u to nodes visited
 		u->visited = 1; //marks u as visited
+		
 		//for each vertex adjacent with u(go through its neighbors)
 		for(int i = 0; i < sizeDArray(u->adjacentV); ++i)
 		{
@@ -38,7 +42,7 @@ static void dijkstra(FILE *fp, Binomial *h, DArray *list)
 			Vertex *v = findVertex(list, a->vertex->value);
 			// if (v has not been visited)
 			if(v->visited != 1)
-			{			
+			{	minVert->ID=0;		
 				// 	if (v does not have a parent or u.key + e.weight < v.key)
 				if((u->ID + a->weight) < v->ID || v->prev == NULL)
 				{
@@ -78,7 +82,7 @@ static void displayForest(FILE *fp, queue *branch)
 	in the graph, so for each queue you can print the line number, and 
 	then print the vertices in it!*/
 
-	Binomial *priority = newBinomial(displayVertex, compareVertex, update);
+	Binomial *priority = newBinomial(displayVertex, compareVertex, updateVertex);
 	Vertex *v = NULL;//declare a vertex to be used in the heap
 
 	//step through the size of the queue, dequeuing setting each dequeued value to a Vertex
@@ -146,34 +150,25 @@ int main(int argc, char **argv)
 	{
 		fprintf(stderr, "Incorrect amount of arguments\n");
 	}
+
 	//use the following to fill the adjacency list
 	FILE *fp = fopen(argv[1], "r");
-	DArray *list = newDArray(displayVertex);
-	// fillAdjList(list, fp);
 
+	DArray *list = newDArray(displayVertex);
+
+	//fill an adjacency list 
 	Edge *e = readData(fp);
 	while (e != NULL)
 	{
-		// printf(" v1: %d\n", e->from);
-		// printf("v2: %d\n", e->to);
-		// printf("weight: %d\n", e->weight);
-
 		insertVertex(list, e->from, e->to, e->weight);
 		insertVertex(list, e->to, e->from, e->weight);
 		free(e);
 		e = readData(fp);
 	}
+	//pass array and fill the heap with the vertices from the adjacency list
+	Binomial *heap = fillHeap(list);
 
-	Binomial *heap = newBinomial(displayVertex, compareVertex, update);
-	
-	int i = 0;
-	while(i < sizeDArray(list))
-	{
-
-		Vertex *v = getDArray(list, i);
-		v->node = insertBinomial(heap, v);
-		++i;
-	}	
+	//run Dijkstra
 	dijkstra(stdout, heap, list);
 
 	fclose(fp);

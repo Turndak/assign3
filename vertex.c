@@ -6,11 +6,6 @@ Adjacent *newAdjacency(int , int );
 Vertex *newVertex(int );
 Vertex *startVertex(DArray *);//locates the minimum value as the start vertex
 void insertVertex(DArray *, int , int , int);//insert vertex into adjacecny list
-Adjacent *findAdjacency(DArray *, int);//finds requested value in an adjacecny list
-Vertex *findVertex(DArray *, int);//finds a specified vertex in a list
-void fillAdjList(DArray *, FILE *);
-int compareVertex(void *, void *);//compare functions for vertices
-void update(void *, BinomialNode *);
 
 Vertex *newVertex(int value)
 {//initialize all paramters of a new Vertex
@@ -33,18 +28,6 @@ Adjacent *newAdjacency(int vertex, int weight)
 	a->weight = weight;
 
 	return a;
-}
-
-void displayVertex(FILE *fp, void *value)
-{
-	Vertex *v = (Vertex *) value;
-	fprintf(fp, "%d", v->value);
-	if(v->prev != v && v->prev != NULL)//if vertex is not equal to itself and not NULL
-	{
-		//follow assign3 output specifications
-		fprintf(fp, "(%d)", v->prev->value);
-		fprintf(fp, "%d", v->ID);
-	}
 }
 
 //get edge details from file
@@ -110,6 +93,7 @@ void insertVertex(DArray *d, int vert, int friend, int weight)//insert vertex in
 	if(v != NULL)//vertex is in list
 	{
 		Adjacent *a = findAdjacency(v->adjacentV, friend);//find neighbor in list
+		
 		//check if the adjacent vertex is in the adjacency list
 		if(a != NULL)//neighbor is in list as well
 		{
@@ -206,9 +190,38 @@ int compareVertex(void *x, void *y)//can I pass vertex as a parameter like this?
 
 }
 
+void displayVertex(FILE *fp, void *value)
+{
+	Vertex *v = (Vertex *) value;
+	fprintf(fp, "%d", v->value);
+	if(v->prev != v && v->prev != NULL)//if vertex is not equal to itself and not NULL
+	{
+		//follow assign3 output specifications
+		fprintf(fp, "(%d)", v->prev->value);
+		fprintf(fp, "%d", v->ID);
+	}
+}
+
 //updates the node pointer when bubble up is called
-void update(void *value, BinomialNode *n)
+void updateVertex(void *value, BinomialNode *n)
 {
 	Vertex *v = (Vertex *) value;
 	v->node = n;
+}
+
+Binomial *fillHeap(DArray *list)
+{
+
+	Binomial *b = newBinomial(displayVertex, compareVertex, updateVertex);
+
+	//insert the vertices from the adjacency list into the heap
+	int i = 0;
+	while(i < sizeDArray(list))
+	{
+
+		Vertex *v = getDArray(list, i);
+		v->node = insertBinomial(b, v);
+		++i;
+	}	
+	return b;
 }

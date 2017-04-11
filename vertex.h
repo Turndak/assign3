@@ -37,15 +37,14 @@ typedef struct Adjacent
 } Adjacent; 
 
 
-extern Vertex *newVertex(int);
-extern Adjacent *newAdjacency(int, int);
-extern void displayVertex(FILE *, void *);
 extern Edge *readData(FILE *);
 extern Vertex *startVertex(DArray *);
 extern void insertVertex(DArray *, int , int, int );//insert vertex into adjacecny list
 extern Adjacent *findAdjacency(DArray *, int );//finds requested value in an adjacecny list
 extern Vertex *findVertex(DArray *, int );//finds a specified vertex in a list
+extern void displayVertex(FILE *, void *);
 extern int compareVertex(void *, void *);
-extern void update(void *, BinomialNode *);
+extern void updateVertex(void *, BinomialNode *);
+extern Binomial *fillHeap(DArray *);
 
 #endif
