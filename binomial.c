@@ -89,6 +89,7 @@ BinomialNode *insertBinomial(Binomial *b,void *value)
 	BinomialNode *n = newBinomialNode(b->display, value);
 
 	updateExtreme(b,n);
+
 	//consolidate b and new node (n)
 	consolidate(b, n);
 
@@ -97,6 +98,7 @@ BinomialNode *insertBinomial(Binomial *b,void *value)
 
 	//return n
 	return n;
+	printf("here\n");
 }
 
 int sizeBinomial(Binomial *b)
