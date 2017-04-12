@@ -38,7 +38,9 @@ Edge *readData(FILE *fp)//Edge function that reads edge weight and associated ve
 	{
 		return NULL;
 	}
+
 	ungetc(c, fp);
+
 	Edge *e = malloc(sizeof(Edge));
 	e->from = readInt(fp);
 	e->to = readInt(fp);
@@ -47,10 +49,13 @@ Edge *readData(FILE *fp)//Edge function that reads edge weight and associated ve
 	//could be a ';' or a weight value
 	char *unknown = readToken(fp);
 	if(strcmp(unknown, ";"))
-	{//if next value is not a ';' convert the token value to an integer
+	{
+		//if next value is not a ';' convert the token value to an integer
 		e->weight = atoi(unknown);
+		
 		//free the now known value
 		free(unknown);
+		
 		//and reset it for the next read
 		unknown = readToken(fp);
 	}
@@ -105,7 +110,6 @@ void insertVertex(DArray *d, int vert, int friend, int weight)//insert vertex in
 		}
 		else//adjacent vertex(neighbor) not in the list, so add it
 		{
-
 			a = newAdjacency(friend, weight);//create a new adjacency with the value
 			insertDArray(v->adjacentV, a);//add it to the vertex's neighbors
 		}

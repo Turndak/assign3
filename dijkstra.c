@@ -7,6 +7,38 @@
 #include "vertex.h"
 
 static void displayForest(FILE *, queue *);
+static void dijkstra(FILE *, Binomial *, DArray *);
+
+int main(int argc, char **argv)
+{
+	if(argc < 2 || argc >=3)
+	{
+		fprintf(stderr, "Incorrect amount of arguments\n");
+		exit(-1);
+	}
+
+	//use the following to fill the adjacency list
+	FILE *fp = fopen(argv[1], "r");
+
+	DArray *list = newDArray(displayVertex);
+
+	//fill an adjacency list 
+	Edge *e = readData(fp);
+	while (e != NULL)
+	{
+		insertVertex(list, e->from, e->to, e->weight);
+		insertVertex(list, e->to, e->from, e->weight);
+		free(e);
+		e = readData(fp);
+	}
+	//pass array and fill the heap with the vertices from the adjacency list
+	Binomial *heap = fillHeap(list);
+
+	//run Dijkstra
+	dijkstra(stdout, heap, list);
+
+	fclose(fp);
+}
 
 static void dijkstra(FILE *fp, Binomial *h, DArray *list)
 {
@@ -141,35 +173,4 @@ static void displayForest(FILE *fp, queue *branch)
 		i++;
 	}
 	fprintf(fp, "----\n");
-}
-
-
-int main(int argc, char **argv)
-{
-	if(argc < 2 || argc >=3)
-	{
-		fprintf(stderr, "Incorrect amount of arguments\n");
-	}
-
-	//use the following to fill the adjacency list
-	FILE *fp = fopen(argv[1], "r");
-
-	DArray *list = newDArray(displayVertex);
-
-	//fill an adjacency list 
-	Edge *e = readData(fp);
-	while (e != NULL)
-	{
-		insertVertex(list, e->from, e->to, e->weight);
-		insertVertex(list, e->to, e->from, e->weight);
-		free(e);
-		e = readData(fp);
-	}
-	//pass array and fill the heap with the vertices from the adjacency list
-	Binomial *heap = fillHeap(list);
-
-	//run Dijkstra
-	dijkstra(stdout, heap, list);
-
-	fclose(fp);
 }
